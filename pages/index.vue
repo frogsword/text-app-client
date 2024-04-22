@@ -4,13 +4,13 @@
             <NavbarSkeleton />
         </div>
         <div v-else>
-            <Navbar v-bind:is-authenticated=isAuthenticated />
+            <Navbar v-bind:name="res.name" v-bind:is-authenticated="res.isAuthenticated"/>
         </div>
     </div>
 </template>
   
-<script setup lang="ts">
-    const { pending, data: isAuthenticated} = await useLazyFetch('https://localhost:7033/api/users/authenticate', {
+<script setup lang="js">
+    const { pending, data: res } = await useLazyFetch('https://localhost:7033/api/users/authenticate', {
         server: false,
         mode: 'cors',
         headers: {

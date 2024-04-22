@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Messenger</h1>
+        <h1>Please Login to Continue</h1>
 
         <ULink 
             active-class="text-primary" 

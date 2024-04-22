@@ -1,6 +1,7 @@
 <template>
     <div>
-        <h1>Messenger</h1>
+        <h1 v-if="isAuthenticated">Welcome, {{ name }}</h1>
+        <h1 v-else>Please Login to Continue</h1>
 
         <ULink 
             to="/login" 
@@ -17,15 +18,30 @@
         >
             <UButton v-show=!isAuthenticated>Register</UButton>
         </ULink>
-
-        <UButton v-show=isAuthenticated>Logout</UButton>
-
+        
+        <UButton v-on:click="handleLogout" v-show=isAuthenticated>Logout</UButton>
     </div>
 </template>
 
 <script lang="ts">
     export default {
-        props: ['isAuthenticated']
+        props: ['name', 'isAuthenticated'],
+        methods: {
+            handleLogout : async function() {
+                console.log('click')
+                await useFetch('https://localhost:7033/api/users/logout', {
+                    mode: 'cors',
+                    server : false,
+                    headers: {
+                        'content-type': 'application/json',
+                        'Access-Control-Allow-Credentials': 'true',
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    credentials: 'include',
+                })
+                await navigateTo("/login")
+            }
+        }
     }
 </script>
   
