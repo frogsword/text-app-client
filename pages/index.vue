@@ -5,13 +5,17 @@
         </div>
         <div v-else>
             <Navbar v-bind:name="res.name" v-bind:is-authenticated="res.isAuthenticated"/>
+            <GroupList :groups="res.groups" />
         </div>
     </div>
 </template>
   
-<script setup lang="js">
-    const { pending, data: res } = await useLazyFetch('https://localhost:7033/api/users/authenticate', {
+<script setup lang="ts">
+    //checks for user authentication. if authenticated, returns username, groups, and profile picture
+    //if not authenticated, false is returned and a login/register button is shown
+    const { pending, data: res } = await useFetch('https://localhost:7033/api/users/authenticate', {
         server: false,
+        lazy: true,
         mode: 'cors',
         headers: {
             'content-type': 'application/json',
