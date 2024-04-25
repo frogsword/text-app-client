@@ -41,7 +41,6 @@
         props: ['name', 'isAuthenticated', 'isHome'],
         methods: {
             handleLogout : async function() {
-                console.log('click')
                 await useFetch('https://localhost:7033/api/users/logout', {
                     mode: 'cors',
                     server : false,

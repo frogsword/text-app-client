@@ -30,13 +30,26 @@
                 </div>
             </div>
 
-            <MessageForm :groupId="groupId" :username="res.name"/>
-        </div>
+            <!-- <MessageForm :groupId="groupId" :username="info.res.name"/> -->
+            <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+                <UFormGroup name="body">
+                    <UInput v-model="state.body" placeholder="Write a Message..." />
+                </UFormGroup>
 
+                <UButton type="submit">
+                    Submit
+                </UButton>
+            </UForm>
+            
+        </div>
     </div>
 </template>
 
-<script setup lang="js">
+<script setup lang="ts">
+    import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+    import { object, string, type InferType } from 'yup'
+    import type { FormSubmitEvent } from '#ui/types'
+
     useHead({
         titleTemplate: (titleChunk) => {
             return titleChunk ? `${titleChunk} - Site Title` : 'Group';
@@ -46,29 +59,97 @@
     const route = useRoute()
     const groupId = route.params.id
 
-        //use userId to determine if user is sender of message
-        //if unauthenticated, go to login page
-        const { pending, data: res } = await useFetch('https://localhost:7033/api/users/authenticate', {
-            server: false,
-            mode: 'cors',
-            headers: {
-                'content-type': 'application/json',
-                'Access-Control-Allow-Credentials': 'true',
-                'Access-Control-Allow-Origin': '*'
-            },
-            credentials: 'include',
-        })
+    const pending = ref(true)
 
-        const { data: messages } = await useFetch(`https://localhost:7033/api/messages/${groupId}`, {
-            server: false,
-            mode: 'cors',
-            headers: {
-                'content-type': 'application/json',
-                'Access-Control-Allow-Credentials': 'true',
-                'Access-Control-Allow-Origin': '*'
-            },
-            credentials: 'include',
-        }) 
+    const {data:res} = await useFetch('https://localhost:7033/api/users/authenticate', {
+        server: false,
+        mode: 'cors',
+        headers: {
+            'content-type': 'application/json',
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Origin': '*'
+        },
+        credentials: 'include',
+    })
+
+    const messages = ref([])
+    await fetch(`https://localhost:7033/api/messages/${groupId}`, {
+        server: false,
+        mode: 'cors',
+        headers: {
+            'content-type': 'application/json',
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Origin': '*'
+        },
+        credentials: 'include',
+    }).then((response) => response.json()).then((response) => messages.value = response).then(() => pending.value = false)
+
+    //signalr
+    const establishConnection = async(groupId, msgs) => {
+        try {
+            const conn = new HubConnectionBuilder()
+                .withUrl("https://localhost:7033/text")
+                .build()
+
+            conn.on("JoinGroupRoom", (groupId) => {
+                console.log(groupId)
+            })
+
+            conn.on("ReceiveMessage", (msg) => {
+                console.log(msg)
+                messages.value = ([...msgs, msg])
+                console.log(messages.value)
+            })
+
+            await conn.start()
+            await conn.invoke("JoinGroupRoom", groupId)
+        }
+        catch {console.log('error')}
+    }
+
+    await establishConnection(groupId, messages.value)
+
+
+
+
+        
+    //message form script
+    const schema = object({
+        body: string().required('Required'),
+    })
+
+    type Schema = InferType<typeof schema>
+
+    const state = reactive({
+        body: undefined,
+    })
+
+    async function onSubmit (event: FormSubmitEvent<Schema>) {
+        const messageModel = {
+            body: event.data.body,
+            senderUsername: res.value.name,
+            senderId: res.value.userId,
+            groupId: groupId
+        }
+
+        try {
+            await $fetch(`https://localhost:7033/api/messages`, {
+                method: 'POST',
+                server: false,
+                mode: 'cors',
+                headers: {
+                    'content-type': 'application/json',
+                    'Access-Control-Allow-Credentials': 'true',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                credentials: 'include',
+                body: JSON.stringify(messageModel)
+            }) 
+        }
+        catch{
+            navigateTo('/login')
+        }
+    }
 </script>
 
 <style>
