@@ -27,6 +27,12 @@
     font-weight: 700;
 }
 
+.receiver-info {
+    font-size: 16px;
+    color: #b5217f;
+    font-weight: 700;
+}
+
 .date {
     font-size: 14px;
     color: gray;

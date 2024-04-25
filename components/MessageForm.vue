@@ -14,7 +14,7 @@
     import { object, string, type InferType } from 'yup'
     import type { FormSubmitEvent } from '#ui/types'
 
-    const props = defineProps(['groupId'])
+    const props = defineProps(['groupId', 'username'])
 
     const schema = object({
         body: string().required('Required'),
@@ -40,7 +40,8 @@
                 credentials: 'include',
                 body: JSON.stringify({
                     body: event.data.body,
-                    groupId: props.groupId,
+                    senderUsername: props.username,
+                    groupId: props.groupId
                 })
             }) 
         }

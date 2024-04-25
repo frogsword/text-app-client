@@ -11,7 +11,7 @@
             <div v-for="message in messages">
                 <div v-if="message.sender == res.userId" class="message sender">
                     <div class="sender-info">
-                        {{ res.name }} 
+                        {{ message.senderUsername }} 
                         <span class="date">
                             {{ message.createdAt.slice(11,16) }}
                         </span>
@@ -19,10 +19,18 @@
                     <div>{{ message.body }}</div>
                 </div>
                 
-                <div v-else class="message">{{ message.body }}</div>
+                <div v-else class="message">
+                    <div class="receiver-info">
+                        {{ message.senderUsername }} 
+                        <span class="date">
+                            {{ message.createdAt.slice(11,16) }}
+                        </span>
+                    </div>
+                    <div>{{ message.body }}</div>
+                </div>
             </div>
 
-            <MessageForm :groupId="groupId"/>
+            <MessageForm :groupId="groupId" :username="res.name"/>
         </div>
 
     </div>
