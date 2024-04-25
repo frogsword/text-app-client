@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 v-if="isAuthenticated">Welcome, {{ name }}</h1>
+        <h1 v-if="isAuthenticated">Chat App</h1>
         <h1 v-else>Please Login to Continue</h1>
 
         <ULink 
@@ -20,12 +20,20 @@
         </ULink>
         
         <UButton v-on:click="handleLogout" v-show=isAuthenticated>Logout</UButton>
+
+        <ULink 
+            to="/" 
+            active-class="text-primary" 
+            inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+        >
+            <UButton v-show=!isHome>Home</UButton>
+        </ULink>
     </div>
 </template>
 
 <script lang="ts">
     export default {
-        props: ['name', 'isAuthenticated'],
+        props: ['name', 'isAuthenticated', 'isHome'],
         methods: {
             handleLogout : async function() {
                 console.log('click')

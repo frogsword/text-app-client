@@ -1,4 +1,13 @@
 <template>
+    <div>Login</div>
+    <ULink 
+        to="/register" 
+        active-class="text-primary" 
+        inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+    >
+        <UButton>Register Instead</UButton>
+    </ULink>
+
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
         <UFormGroup label="Email" name="email">
             <UInput v-model="state.email" />
@@ -15,6 +24,12 @@
 </template>
 
 <script setup lang="ts">
+    useHead({
+        titleTemplate: (titleChunk) => {
+            return titleChunk ? `${titleChunk} - Site Title` : 'Login';
+        }
+    })
+
     import { object, string, type InferType } from 'yup'
     import type { FormSubmitEvent } from '#ui/types'
 
