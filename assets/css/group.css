@@ -16,3 +16,18 @@
     font-size: 18px;
     padding: 10px 5px;
 }
+
+.sender {
+    text-align: right;
+}
+
+.sender-info {
+    font-size: 16px;
+    color: #4ADE80;
+    font-weight: 700;
+}
+
+.date {
+    font-size: 14px;
+    color: gray;
+}
