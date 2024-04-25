@@ -1,8 +1,14 @@
 <template>
-    <div>
-        <h1>Please Login to Continue</h1>
+    <div class="navbar">
+        <h1 class="header">Chat App</h1>
 
-        <UButton loading disabled>Login</UButton>
-        <UButton loading disabled>Register</UButton>
+        <div class="button-group">
+            <UButton loading disabled>Login</UButton>
+            <UButton loading disabled>Register</UButton>
+        </div>
     </div>
 </template>
+
+<style>
+    @import url("~/assets/css/navbar.css");
+</style>

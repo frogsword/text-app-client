@@ -1,0 +1,18 @@
+.group-page-main {
+    margin: 0% 30%;
+    min-height: 100vh;
+    padding: 5px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.group-title {
+    font-size: 48px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid black;
+}
+
+.message {
+    font-size: 18px;
+    padding: 10px 5px;
+}

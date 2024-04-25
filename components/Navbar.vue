@@ -1,33 +1,38 @@
 <template>
-    <div>
-        <h1 v-if="isAuthenticated">Chat App</h1>
-        <h1 v-else>Please Login to Continue</h1>
+    <div class="navbar">
+        <h1 class="header">
+            Chat App
+        </h1>
 
-        <ULink 
-            to="/login" 
-            active-class="text-primary" 
-            inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
-        >
-            <UButton v-show=!isAuthenticated>Login</UButton>
-        </ULink>
+        <div class="button-group">
+            <ULink 
+                to="/login" 
+                active-class="text-primary" 
+                inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+            >
+                <UButton v-show=!isAuthenticated>Login</UButton>
+            </ULink>
 
-        <ULink 
-            to="/register" 
-            active-class="text-primary" 
-            inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
-        >
-            <UButton v-show=!isAuthenticated>Register</UButton>
-        </ULink>
-        
-        <UButton v-on:click="handleLogout" v-show=isAuthenticated>Logout</UButton>
+            <ULink 
+                to="/register" 
+                active-class="text-primary" 
+                inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+            >
+                <UButton v-show=!isAuthenticated>Register</UButton>
+            </ULink>
+            
+            <UButton v-on:click="handleLogout" v-show=isAuthenticated>
+                Logout
+            </UButton>
 
-        <ULink 
-            to="/" 
-            active-class="text-primary" 
-            inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
-        >
-            <UButton v-show=!isHome>Home</UButton>
-        </ULink>
+            <ULink 
+                to="/" 
+                active-class="text-primary" 
+                inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+            >
+                <UButton v-show=!isHome>Home</UButton>
+            </ULink>
+        </div>
     </div>
 </template>
 
@@ -53,3 +58,6 @@
     }
 </script>
   
+<style>
+    @import url("~/assets/css/navbar.css");
+</style>

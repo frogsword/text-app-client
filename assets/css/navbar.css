@@ -1,0 +1,18 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5% 10%;
+    border-bottom: 2px solid black;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+}
+
+.header {
+    font-size: 48px;
+}

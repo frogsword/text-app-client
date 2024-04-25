@@ -5,13 +5,17 @@
     <div v-else>
         <Navbar v-bind:is-authenticated="true" v-bind:isHome="false" />
 
-        <div v-for="message in messages">
-            <div>{{ message.body }}</div>
+        <div class="group-page-main">
+            <h1 class="group-title">Group Messages</h1>
+
+            <div v-for="message in messages">
+                <div class="message">{{ message.body }}</div>
+            </div>
+
+            <MessageForm :groupId="groupId"/>
         </div>
 
     </div>
-
-    <MessageForm :groupId="groupId"/>
 </template>
 
 <script setup lang="ts">
@@ -35,3 +39,7 @@
         credentials: 'include',
     }) 
 </script>
+
+<style>
+    @import url("~/assets/css/group.css");
+</style>
