@@ -57,8 +57,8 @@
                 mode: 'cors',
                 headers: {
                     'content-type': 'application/json',
-                    'Access-Control-Allow-Credentials': 'true',
-                    'Access-Control-Allow-Origin': '*'
+                    // 'Access-Control-Allow-Credentials': 'true',
+                    // 'Access-Control-Allow-Origin': '*'
                 },
                 credentials: 'include',
                 body: JSON.stringify(event.data)

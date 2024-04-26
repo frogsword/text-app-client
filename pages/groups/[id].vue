@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-    import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+    import { HubConnectionBuilder } from '@microsoft/signalr';
     import { object, string, type InferType } from 'yup'
     import type { FormSubmitEvent } from '#ui/types'
 
@@ -72,9 +72,8 @@
         credentials: 'include',
     })
 
-    const messages = ref([])
+    const messages = ref()
     await fetch(`https://cbheavin-textapp.azurewebsites.net/api/messages/${groupId}`, {
-        server: false,
         mode: 'cors',
         headers: {
             'content-type': 'application/json',
@@ -85,7 +84,7 @@
     }).then((response) => response.json()).then((response) => messages.value = response).then(() => pending.value = false)
 
     //signalr
-    const establishConnection = async(groupId: string, msgs: []) => {
+    const establishConnection = async(groupId: string | string[], msgs: []) => {
         try {
             const conn = new HubConnectionBuilder()
                 .withUrl("https://cbheavin-textapp.azurewebsites.net/text")
@@ -96,9 +95,9 @@
             })
 
             conn.on("ReceiveMessage", (msg) => {
-                console.log(msg)
-                messages.value = ([...msgs, msg])
-                console.log(messages.value)
+                msgs.push(msg)
+                //messages.value = [... msgs, msg]
+                messages.value = msgs
             })
 
             await conn.start()
