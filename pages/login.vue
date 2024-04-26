@@ -52,7 +52,7 @@
     async function onSubmit (event: FormSubmitEvent<Schema>) {
         // Do something with event.data
         try {
-            await useFetch('https://localhost:7033/api/users/login', {
+            await useFetch('https://cbheavin-textapp.azurewebsites.net/api/users/login', {
                 method: 'POST',
                 mode: 'cors',
                 headers: {

@@ -61,7 +61,7 @@
 
     const pending = ref(true)
 
-    const {data:res} = await useFetch('https://localhost:7033/api/users/authenticate', {
+    const {data:res} = await useFetch('https://cbheavin-textapp.azurewebsites.net/api/users/authenticate', {
         server: false,
         mode: 'cors',
         headers: {
@@ -73,7 +73,7 @@
     })
 
     const messages = ref([])
-    await fetch(`https://localhost:7033/api/messages/${groupId}`, {
+    await fetch(`https://cbheavin-textapp.azurewebsites.net/api/messages/${groupId}`, {
         server: false,
         mode: 'cors',
         headers: {
@@ -85,10 +85,10 @@
     }).then((response) => response.json()).then((response) => messages.value = response).then(() => pending.value = false)
 
     //signalr
-    const establishConnection = async(groupId, msgs) => {
+    const establishConnection = async(groupId: string, msgs: []) => {
         try {
             const conn = new HubConnectionBuilder()
-                .withUrl("https://localhost:7033/text")
+                .withUrl("https://cbheavin-textapp.azurewebsites.net/text")
                 .build()
 
             conn.on("JoinGroupRoom", (groupId) => {
@@ -133,7 +133,7 @@
         }
 
         try {
-            await $fetch(`https://localhost:7033/api/messages`, {
+            await $fetch(`https://cbheavin-textapp.azurewebsites.net/api/messages`, {
                 method: 'POST',
                 server: false,
                 mode: 'cors',

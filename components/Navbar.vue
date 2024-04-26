@@ -41,7 +41,7 @@
         props: ['name', 'isAuthenticated', 'isHome'],
         methods: {
             handleLogout : async function() {
-                await useFetch('https://localhost:7033/api/users/logout', {
+                await useFetch('https://cbheavin-textapp.azurewebsites.net/api/users/logout', {
                     mode: 'cors',
                     server : false,
                     headers: {

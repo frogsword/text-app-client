@@ -28,7 +28,7 @@
 
     async function onSubmit (event: FormSubmitEvent<Schema>) {
         try {
-            await $fetch(`https://localhost:7033/api/messages`, {
+            await $fetch(`https://cbheavin-textapp.azurewebsites.net/api/messages`, {
                 method: 'POST',
                 server: false,
                 mode: 'cors',

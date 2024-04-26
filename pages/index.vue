@@ -21,7 +21,7 @@
 
     //checks for user authentication. if authenticated, returns username, groups, and profile picture
     //if not authenticated, false is returned and a login/register button is shown
-    const { pending, data: res } = await useFetch('https://localhost:7033/api/users/authenticate', {
+    const { pending, data: res } = await useFetch('https://cbheavin-textapp.azurewebsites.net/api/users/authenticate', {
         server: false,
         lazy: true,
         mode: 'cors',

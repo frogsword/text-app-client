@@ -72,7 +72,7 @@
         }
 
         try {
-            await useFetch('https://localhost:7033/api/users/register', {
+            await useFetch('https://cbheavin-textapp.azurewebsites.net/api/users/register', {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
