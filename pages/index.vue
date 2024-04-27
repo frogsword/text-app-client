@@ -7,7 +7,7 @@
 
             <Navbar v-bind:name="res.name" v-bind:is-authenticated="res.isAuthenticated" v-bind:isHome="true" />
 
-            <GroupList :groups="res.groups" />
+            <GroupList :groups="res.groups" :isAuthenticated="res.isAuthenticated"  />
         </div>
     </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
     <div class="navbar">
         <h1 class="header">
-            Chat App
+            Welcome, {{ name }}
         </h1>
 
         <div class="button-group">

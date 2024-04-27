@@ -1,6 +1,6 @@
 <template>
     <div class="navbar">
-        <h1 class="header">Chat App</h1>
+        <h1 class="header">Welcome, </h1>
 
         <div class="button-group">
             <UButton loading disabled>Login</UButton>

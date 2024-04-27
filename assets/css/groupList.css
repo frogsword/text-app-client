@@ -6,18 +6,34 @@
     border-right: 1px solid black;
 }
 
+.group-header {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
 .group-title {
     font-size: 48px;
     text-align: center;
     padding-bottom: 5px;
 }
 
+.icon {
+    font-size: 36px;
+    color: #4ADE80;
+}
+
 .group {
     border-top: 1px solid gray;
     font-size: 24px;
     padding: 10px 5px;
+    text-align: center;
 }
 
 .group:hover {
     background-color: #3b3947;
+}
+
+.group:active {
+    background-color: #23222a;
 }

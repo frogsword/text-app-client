@@ -3,7 +3,7 @@
         <div>Loading...</div>
     </div>
     <div v-else>
-        <Navbar v-bind:is-authenticated="true" v-bind:isHome="false" />
+        <Navbar v-bind:is-authenticated="true" v-bind:isHome="false" v-bind:name="res.name" />
 
         <div class="group-page-main">
             <h1 class="group-title">Group Messages</h1>
