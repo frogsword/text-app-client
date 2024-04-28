@@ -1,26 +1,32 @@
 <template>
-    <div>Login</div>
-    <ULink 
-        to="/register" 
-        active-class="text-primary" 
-        inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
-    >
-        <UButton>Register Instead</UButton>
-    </ULink>
+    <div class="login">
+        <div class="login-header">
+            <h1 class="login-title">Login</h1>
+            <ULink 
+                to="/register" 
+                active-class="text-primary" 
+                inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+            >
+                <UButton variant="outline">Register Instead</UButton>
+            </ULink>
+        </div>
 
-    <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-        <UFormGroup label="Email" name="email">
-            <UInput v-model="state.email" />
-        </UFormGroup>
-  
-        <UFormGroup label="Password" name="password">
-            <UInput v-model="state.password" type="password" />
-        </UFormGroup>
-  
-        <UButton type="submit">
-            Login
-        </UButton>
-    </UForm>
+        <div class="form">
+            <UForm :schema="schema" :state="state" class="space-y-4 formgroup" @submit="onSubmit" >
+                <UFormGroup name="email">
+                    <UInput v-model="state.email" placeholder="Email" />
+                </UFormGroup>
+        
+                <UFormGroup name="password">
+                    <UInput v-model="state.password" type="password" placeholder="Password" />
+                </UFormGroup>
+        
+                <UButton type="submit" class="button">
+                    Login
+                </UButton>
+            </UForm>
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -57,8 +63,6 @@
                 mode: 'cors',
                 headers: {
                     'content-type': 'application/json',
-                    // 'Access-Control-Allow-Credentials': 'true',
-                    // 'Access-Control-Allow-Origin': '*'
                 },
                 credentials: 'include',
                 body: JSON.stringify(event.data)
@@ -69,3 +73,7 @@
         await navigateTo("/")
     }
 </script>
+
+<style>
+    @import url("~/assets/css/login.css");
+</style>

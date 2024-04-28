@@ -1,0 +1,22 @@
+.login {
+    padding: 0% 25%;
+}
+
+.login-header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.login-title {
+    font-size: 48px;
+}
+
+.formgroup {
+    padding-top: 2%;
+    min-width: 100%;
+}
+
+.button {
+    font-weight: 600;
+}

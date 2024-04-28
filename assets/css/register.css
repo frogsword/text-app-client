@@ -1,0 +1,27 @@
+.register {
+    padding: 0% 25%;
+}
+
+.register-header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.register-title {
+    font-size: 48px;
+}
+
+.form {
+    padding: 0% 20%;
+    width: 100%;
+}
+
+.formgroup {
+    padding-top: 2%;
+    width: 70%;
+}
+
+.button {
+    font-weight: 600;
+}

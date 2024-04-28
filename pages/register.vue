@@ -1,34 +1,40 @@
 <template>
-    <div>Register</div>
-    <ULink 
-        to="/login" 
-        active-class="text-primary" 
-        inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
-    >
-        <UButton>Login Instead</UButton>
-    </ULink>
+    <div class="register">
+        <div class="register-header">
+            <h1 class="register-title">Register</h1>
+            <ULink 
+                to="/login" 
+                active-class="text-primary" 
+                inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+            >
+                <UButton variant="outline">Login Instead</UButton>
+            </ULink>
+        </div>
 
-    <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-        <UFormGroup label="Username" name="username">
-            <UInput v-model="state.username" />
-        </UFormGroup>
+        <div class="form">
+            <UForm :schema="schema" :state="state" class="space-y-4 formgroup" @submit="onSubmit">
+                <UFormGroup name="username">
+                    <UInput v-model="state.username" placeholder="Username" />
+                </UFormGroup>
 
-        <UFormGroup label="Email" name="email">
-            <UInput v-model="state.email" />
-        </UFormGroup>
-  
-        <UFormGroup label="Password" name="password">
-            <UInput v-model="state.password" type="password" />
-        </UFormGroup>
+                <UFormGroup name="email">
+                    <UInput v-model="state.email" placeholder="Email" />
+                </UFormGroup>
+        
+                <UFormGroup name="password">
+                    <UInput v-model="state.password" type="password" placeholder="Password" />
+                </UFormGroup>
 
-        <UFormGroup label="Confirm Password" name="confirmPassword">
-            <UInput v-model="state.confirmPassword" type="password" />
-        </UFormGroup>
-  
-        <UButton type="submit">
-            Register
-        </UButton>
-    </UForm>
+                <UFormGroup name="confirmPassword">
+                    <UInput v-model="state.confirmPassword" type="password" placeholder="Confirm Password" />
+                </UFormGroup>
+        
+                <UButton type="submit" class="button">
+                    Register
+                </UButton>
+            </UForm>
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -77,8 +83,6 @@
                 mode: 'cors',
                 headers: {
                     'content-type': 'application/json',
-                    'Access-Control-Allow-Credentials': 'true',
-                    'Access-Control-Allow-Origin': '*'
                 },
                 credentials: 'include',
                 body: JSON.stringify(event.data)
@@ -89,3 +93,7 @@
         await navigateTo("/login")
     }
 </script>
+
+<style>
+    @import url("~/assets/css/register.css");
+</style>
