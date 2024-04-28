@@ -3,10 +3,29 @@
         <div>Loading...</div>
     </div>
     <div v-else>
-        <Navbar v-bind:is-authenticated="true" v-bind:isHome="false" v-bind:name="res.name" />
-
         <div class="group-page-main">
-            <h1 class="group-title">Group Messages</h1>
+            <div class="group-title">
+
+                <h1 class="group-name">
+                    {{ groupInfo.name }}
+                    <ChangeGroupNameModal :groupId="groupId" />
+                </h1>
+
+                <div class="button-group">
+                    <ULink 
+                        to="/" 
+                        active-class="text-primary" 
+                        inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                    >
+                        <UButton variant="ghost" style="font-size: 24px;">
+                            <UIcon name="i-heroicons-home" />
+                        </UButton>
+                    </ULink>
+
+                    <GroupMembersModal :profiles="groupInfo.profiles" />
+
+                </div>
+            </div>
 
             <div v-for="message in messages">
                 <div v-if="message.sender == res.userId" class="message sender">
@@ -30,7 +49,6 @@
                 </div>
             </div>
 
-            <!-- <MessageForm :groupId="groupId" :username="info.res.name"/> -->
             <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
                 <UFormGroup name="body">
                     <UInput v-model="state.body" placeholder="Write a Message..." />
@@ -52,7 +70,7 @@
 
     useHead({
         titleTemplate: (titleChunk) => {
-            return titleChunk ? `${titleChunk} - Site Title` : 'Group';
+            return titleChunk ? `${titleChunk} - Site Title` : "Group";
         }
     })
 
@@ -60,28 +78,39 @@
     const groupId = route.params.id
 
     const pending = ref(true)
-
     const {data:res} = await useFetch('https://cbheavin-textapp.azurewebsites.net/api/users/authenticate', {
         server: false,
         mode: 'cors',
         headers: {
             'content-type': 'application/json',
-            'Access-Control-Allow-Credentials': 'true',
-            'Access-Control-Allow-Origin': '*'
         },
         credentials: 'include',
     })
 
+    const groupInfo = ref()
+    await fetch(`https://cbheavin-textapp.azurewebsites.net/api/groups/${groupId}`, {
+        mode: 'cors',
+        credentials: 'include',
+        headers: {
+            'content-type': 'application/json',
+        },
+    })
+    .then((res) => res.json())
+    .then((res) => groupInfo.value = res)
+
     const messages = ref()
     await fetch(`https://cbheavin-textapp.azurewebsites.net/api/messages/${groupId}`, {
         mode: 'cors',
+        credentials: 'include',
         headers: {
             'content-type': 'application/json',
-            'Access-Control-Allow-Credentials': 'true',
-            'Access-Control-Allow-Origin': '*'
-        },
-        credentials: 'include',
-    }).then((response) => response.json()).then((response) => messages.value = response).then(() => pending.value = false)
+        }
+    }) 
+    .then((response) => response.json())
+    .then((response) => messages.value = response)
+    .then(() => pending.value = false)
+
+
 
     //signalr
     const establishConnection = async(groupId: string | string[], msgs: []) => {
@@ -96,7 +125,6 @@
 
             conn.on("ReceiveMessage", (msg) => {
                 msgs.push(msg)
-                //messages.value = [... msgs, msg]
                 messages.value = msgs
             })
 
@@ -105,10 +133,7 @@
         }
         catch {console.log('error')}
     }
-
     await establishConnection(groupId, messages.value)
-
-
 
 
         
@@ -138,8 +163,6 @@
                 mode: 'cors',
                 headers: {
                     'content-type': 'application/json',
-                    'Access-Control-Allow-Credentials': 'true',
-                    'Access-Control-Allow-Origin': '*'
                 },
                 credentials: 'include',
                 body: JSON.stringify(messageModel)

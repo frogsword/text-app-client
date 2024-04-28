@@ -9,7 +9,7 @@
                 active-class="text-primary" 
                 inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200" 
             >
-                <UIcon name="i-heroicons-pencil-square-16-solid" class="icon" />
+                <UIcon name="i-heroicons-plus-20-solid" class="icon" />
             </ULink>
         </div>
 
