@@ -28,25 +28,30 @@
             </div>
 
             <div v-for="message in messages">
-                <div v-if="message.sender == res.userId" class="message sender">
-                    <div class="sender-info">
-                        {{ message.senderUsername }} 
-                        <span class="date">
-                            {{ message.createdAt.slice(11,16) }}
-                        </span>
+
+                <div v-if="!message.isDeleted">
+                    <div v-if="message.sender == res.userId" class="message sender">
+                        <div class="sender-info">
+                            <UButton @click="deleteMessage(message.id)" color="red" variant="ghost"><UIcon name="i-heroicons-trash" /></UButton>
+                            {{ message.senderUsername }} 
+                            <span class="date">
+                                {{ message.createdAt.slice(11,16) }}
+                            </span>
+                        </div>
+                        <div>{{ message.body }}</div>
                     </div>
-                    <div>{{ message.body }}</div>
-                </div>
-                
-                <div v-else class="message">
-                    <div class="receiver-info">
-                        {{ message.senderUsername }} 
-                        <span class="date">
-                            {{ message.createdAt.slice(11,16) }}
-                        </span>
+                    
+                    <div v-else class="message">
+                        <div class="receiver-info">
+                            {{ message.senderUsername }} 
+                            <span class="date">
+                                {{ message.createdAt.slice(11,16) }}
+                            </span>
+                        </div>
+                        <div>{{ message.body }}</div>
                     </div>
-                    <div>{{ message.body }}</div>
                 </div>
+
             </div>
 
             <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
@@ -113,7 +118,7 @@
 
 
     //signalr
-    const establishConnection = async(groupId: string | string[], msgs: []) => {
+    // const establishConnection = async(groupId: string | string[], msgs: []) => {
         try {
             const conn = new HubConnectionBuilder()
                 .withUrl("https://cbheavin-textapp.azurewebsites.net/text")
@@ -124,6 +129,7 @@
             })
 
             conn.on("ReceiveMessage", (msg) => {
+                const msgs = messages.value
                 msgs.push(msg)
                 messages.value = msgs
             })
@@ -132,8 +138,8 @@
             await conn.invoke("JoinGroupRoom", groupId)
         }
         catch {console.log('error')}
-    }
-    await establishConnection(groupId, messages.value)
+    // }
+    // await establishConnection(groupId, messages.value)
 
 
         
@@ -170,6 +176,29 @@
         }
         catch{
             navigateTo('/login')
+        }
+    }
+
+    async function deleteMessage(messageId: string) {
+        try {
+            await fetch(`https://cbheavin-textapp.azurewebsites.net/api/messages/${messageId}`, {
+                method: 'DELETE',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    'content-type': 'application/json',
+                }
+            })
+            .then(() => {
+                for (let i = 0; i < messages.value.length; i++) {
+                    if (messages.value[i].id == messageId) {
+                        messages.value[i].isDeleted = true
+                    }
+                }
+            })
+        }
+        catch {
+            alert("Unable to delete message.")
         }
     }
 </script>
