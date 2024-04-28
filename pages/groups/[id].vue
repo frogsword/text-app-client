@@ -134,6 +134,10 @@
                 messages.value = msgs
             })
 
+            conn.on("DeleteMessage", (msgs) => {
+                messages.value = msgs
+            })
+
             await conn.start()
             await conn.invoke("JoinGroupRoom", groupId)
         }
