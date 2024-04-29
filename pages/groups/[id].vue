@@ -175,7 +175,8 @@
                 },
                 credentials: 'include',
                 body: JSON.stringify(messageModel)
-            }) 
+            })
+            .then(() => state.body = undefined)
         }
         catch{
             navigateTo('/login')
