@@ -38,8 +38,11 @@
                                 {{ message.createdAt.slice(11,16) }}
                             </span>
                         </div>
-                        <div>{{ message.body }}</div>
+                    <div class="message-body">
+                        <EditMessageModal :message="message" />
+                        {{ message.body }}
                     </div>
+                </div>
                     
                     <div v-else class="message">
                         <div class="receiver-info">
@@ -134,7 +137,7 @@
                 messages.value = msgs
             })
 
-            conn.on("DeleteMessage", (msgs) => {
+            conn.on("UpdateGroupMessages", (msgs) => {
                 messages.value = msgs
             })
 
@@ -193,13 +196,13 @@
                     'content-type': 'application/json',
                 }
             })
-            .then(() => {
-                for (let i = 0; i < messages.value.length; i++) {
-                    if (messages.value[i].id == messageId) {
-                        messages.value[i].isDeleted = true
-                    }
-                }
-            })
+            // .then(() => {
+            //     for (let i = 0; i < messages.value.length; i++) {
+            //         if (messages.value[i].id == messageId) {
+            //             messages.value[i].isDeleted = true
+            //         }
+            //     }
+            // })
         }
         catch {
             alert("Unable to delete message.")

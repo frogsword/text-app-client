@@ -24,6 +24,13 @@
     padding: 10px 5px;
 }
 
+.message-body {
+    display: flex;
+    justify-content: right;
+    align-items: bottom;
+    font-size: 16px;
+}
+
 .sender {
     text-align: right;
 }
