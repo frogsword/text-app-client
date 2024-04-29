@@ -120,8 +120,6 @@
 
 
 
-    //signalr
-    // const establishConnection = async(groupId: string | string[], msgs: []) => {
         try {
             const conn = new HubConnectionBuilder()
                 .withUrl("https://cbheavin-textapp.azurewebsites.net/text")
@@ -145,12 +143,10 @@
             await conn.invoke("JoinGroupRoom", groupId)
         }
         catch {console.log('error')}
-    // }
-    // await establishConnection(groupId, messages.value)
 
 
         
-    //message form script
+    //message form
     const schema = object({
         body: string().required('Required'),
     })
@@ -196,13 +192,6 @@
                     'content-type': 'application/json',
                 }
             })
-            // .then(() => {
-            //     for (let i = 0; i < messages.value.length; i++) {
-            //         if (messages.value[i].id == messageId) {
-            //             messages.value[i].isDeleted = true
-            //         }
-            //     }
-            // })
         }
         catch {
             alert("Unable to delete message.")

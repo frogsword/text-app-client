@@ -11,7 +11,7 @@
                 <UInput v-model="state.body" placeholder="Edit Message" />
             </UFormGroup>
 
-            <UButton type="submit">
+            <UButton type="submit" @click="isOpen = false">
                 Submit
             </UButton>
         </UForm>
